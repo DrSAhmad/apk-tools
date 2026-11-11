@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>APK Tools — Free APK Calculator, Checker & Generator Tools</title>
+<meta name="description" content="Free APK tools in your browser: size calculator, compatibility and permission checkers, and package and app name generators. No sign-up, no uploads.">
+<meta property="og:title" content="APK Tools — Free APK Calculator, Checker &amp; Generator Tools">
+<meta property="og:description" content="Free APK tools in your browser: size calculator, compatibility and permission checkers, and package and app name generators. No sign-up, no uploads.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"APK Tools","description":"Free APK tools in your browser: size calculator, compatibility and permission checkers, and package and app name generators. No sign-up, no uploads.","applicationCategory":"UtilitiesApplication","operatingSystem":"Android","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6F1; --surface:#FFFFFF; --surface2:#EDF1E9; --ink:#132017; --muted:#5B6B5E; --line:#DCE3D8;
+  --green:#147A3D; --green2:#3DDC84; --green-dark:#0E3B24; --lime:#D9F99D; --amber:#B45309; --amber-bg:#FEF3C7;
+  --red:#B91C1C; --red-bg:#FEE2E2; --radius:18px; --shadow:0 10px 30px rgba(18,40,24,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0B120E; --surface:#131D16; --surface2:#1A281E; --ink:#E8F0E9; --muted:#9AB09E; --line:#26362A; --green:#3DDC84; --green2:#3DDC84; --shadow:0 10px 30px rgba(0,0,0,.35); --amber-bg:#3A2E0A; --red-bg:#3A1515; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Archivo,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:inherit}
+button,input,select{font:inherit}
+button,[role="button"],select,summary,input:not([type="checkbox"]){min-height:44px}
+.mono{font-family:"JetBrains Mono",monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%, transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;letter-spacing:-.02em;font-size:20px}
+.logo-mark{width:40px;height:40px;border-radius:11px;background:var(--green-dark);display:grid;place-items:center;color:#fff;flex:0 0 auto}
+.logo-mark svg{width:22px;height:22px}
+.logo span em{font-style:normal;color:var(--green)}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav a{text-decoration:none;font-weight:600;font-size:14px;padding:10px 12px;border-radius:999px}
+.nav a:hover{background:var(--surface2)}
+.hero{padding:44px 0 18px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:start}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr}.nav{display:none}}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--green2);display:block;box-shadow:0 0 0 4px color-mix(in srgb,var(--green2) 22%, transparent)}
+h1{font-size:clamp(36px,5.4vw,62px);line-height:.95;letter-spacing:-.04em;margin:16px 0 14px;font-weight:900}
+h1 .hl{background:var(--lime);color:#132017;padding:0 .12em;border-radius:.12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.lead{font-size:18px;color:var(--muted);max-width:620px;margin:0}
+.searchbox{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px;display:flex;gap:8px;box-shadow:var(--shadow)}
+.searchbox input{flex:1;border:0;background:transparent;padding:0 12px;outline:none;color:var(--ink);min-width:0}
+.searchbox button{border:0;background:var(--green-dark);color:#fff;border-radius:11px;padding:0 18px;font-weight:700;cursor:pointer}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-width:110px}
+.stat b{display:block;font-size:20px;line-height:1}
+.stat span{font-size:12px;color:var(--muted);font-weight:600}
+.analyzer-card{background:var(--green-dark);color:#EAF7EE;border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.analyzer-card h3{margin:0 0 6px;font-size:20px;letter-spacing:-.02em}
+.analyzer-card p{margin:0;color:#B9D8C1;font-size:14px}
+.dropzone{margin-top:16px;border:1.5px dashed rgba(255,255,255,.35);border-radius:16px;padding:22px;text-align:center;background:rgba(255,255,255,.06)}
+.dropzone strong{display:block;font-size:16px}
+.dropzone span{font-size:13px;color:#B9D8C1}
+.filebtn{margin-top:12px;background:#fff;color:#0E3B24;border:0;border-radius:999px;padding:0 18px;font-weight:800;cursor:pointer}
+#fileResult{margin-top:14px;display:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px;font-size:14px}
+#fileResult dl{display:grid;grid-template-columns:110px 1fr;gap:6px 10px;margin:0}
+#fileResult dt{color:#B9D8C1}#fileResult dd{margin:0;word-break:break-all}
+.section{padding:28px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.section-head h2{margin:0;font-size:28px;letter-spacing:-.03em;line-height:1}
+.section-head p{margin:6px 0 0;color:var(--muted);max-width:640px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:0 16px;font-weight:700;cursor:pointer}
+.filter.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.tool-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:10px}
+.tool-card:hover{border-color:var(--green)}
+.tool-top{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.icon{width:44px;height:44px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;font-size:20px}
+.badge{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-radius:999px;background:var(--surface2)}
+.badge.calc{background:#DCFCE7;color:#14532D}.badge.check{background:#FEF3C7;color:#92400E}.badge.gen{background:#E0E7FF;color:#3730A3}
+@media(prefers-color-scheme:dark){.badge.calc,.badge.check,.badge.gen{filter:brightness(1.2)}}
+.tool-card h3{margin:0;font-size:18px;letter-spacing:-.02em}
+.tool-card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.tool-card a{font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:10px 0 2px}
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.workspace{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;scroll-margin-top:90px}
+.panel.full{grid-column:1/-1}
+.panel h3{margin:0 0 4px;font-size:20px;letter-spacing:-.02em}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+label.field{display:block;font-size:13px;font-weight:700;margin-bottom:12px}
+label.field span{display:flex;justify-content:space-between;margin-bottom:6px}
+label.field span output{font-family:"JetBrains Mono",monospace;color:var(--green)}
+input[type="range"]{width:100%;accent-color:var(--green);min-height:28px}
+input[type="text"],input[type="number"],select{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:0 12px}
+.result{margin-top:14px;background:var(--surface2);border-radius:14px;padding:14px}
+.result-big{font-size:32px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.bar{height:10px;background:color-mix(in srgb,var(--ink) 10%, transparent);border-radius:999px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--green);border-radius:999px;transition:width .25s}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px dashed var(--line);font-size:14px}
+.kv:first-child{border-top:0}
+.verdict{padding:12px 14px;border-radius:12px;font-weight:700;font-size:14px;margin-top:12px}
+.verdict.ok{background:#DCFCE7;color:#14532D}.verdict.warn{background:var(--amber-bg);color:var(--amber)}.verdict.bad{background:var(--red-bg);color:var(--red)}
+@media(prefers-color-scheme:dark){.verdict.ok{background:#14301E;color:#86EFAC}}
+.perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.perm-grid{grid-template-columns:1fr}}
+.perm{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;min-height:52px}
+.perm input{width:20px;height:20px;margin-top:2px;accent-color:var(--green);flex:0 0 auto}
+.perm b{font-size:14px;display:block}.perm small{color:var(--muted);line-height:1.3;display:block}
+.btn{border:0;background:var(--green-dark);color:#fff;border-radius:12px;padding:0 18px;font-weight:800;cursor:pointer;width:100%}
+@media(prefers-color-scheme:dark){.btn{background:var(--green);color:#0B120E}}
+.btn.secondary{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:9px 12px;font-size:13px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
+.chip button{border:0;background:transparent;cursor:pointer;font-weight:800;color:var(--green);padding:4px 6px;min-height:32px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.how{grid-template-columns:1fr}}
+.how article{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+.how b.num{width:36px;height:36px;border-radius:50%;background:var(--green-dark);color:#fff;display:grid;place-items:center}
+.how h3{margin:12px 0 6px}.how p{margin:0;color:var(--muted);font-size:14px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px 16px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;padding:10px 0}
+details p{color:var(--muted);margin:0 0 14px;font-size:14px}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:13px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap topbar-inner">
+<a class="logo" href="#top"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M9 7h6M12 18h.01"/></svg></span>APK<em>Tools</em></a>
+<nav class="nav"><a href="#tools">All Tools</a><a href="#analyzer">Analyzer</a><a href="#calculator">Calculator</a><a href="#checker">Checker</a><a href="#generator">Generator</a><a href="#faq">FAQ</a></nav>
+</div></header>
+
+<main id="top" class="wrap">
+<section class="hero"><div class="hero-grid">
+<div>
+<span class="pill"><i></i> Micro-niche tool hub — built for “calculator / checker / generator” searches</span>
+<h1>Free APK tools.<br><span class="hl">No sign-up.</span><br>Just answers.</h1>
+<p class="lead">The exact model from the SEMrush video — one page, many single-purpose tools. Check an APK before you install it, calculate its size and download time, test compatibility, and generate package &amp; app names.</p>
+<div class="searchbox"><input id="searchInput" type="text" placeholder="Search tools… try “size”, “permission”, “package”" aria-label="Search tools"><button onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Find tool</button></div>
+<div class="stats">
+<div class="stat"><b>7</b><span>Free tools</span></div>
+<div class="stat"><b>0</b><span>Files uploaded</span></div>
+<div class="stat"><b>100%</b><span>Runs in browser</span></div>
+<div class="stat"><b>No</b><span>Account needed</span></div>
+</div>
+</div>
+
+<div class="analyzer-card" id="analyzer">
+<h3>⚡ Quick APK Analyzer</h3>
+<p>Drop any .apk file — we read it locally on your device. Nothing is uploaded to a server.</p>
+<div class="dropzone" id="dropzone"><strong>Drag &amp; drop your APK here</strong><span>or tap below to browse • .apk only</span><br><button class="filebtn" onclick="document.getElementById('fileInput').click()">Choose APK file</button><input id="fileInput" type="file" accept=".apk,application/vnd.android.package-archive" hidden></div>
+<div id="fileResult"></div>
+</div>
+</div></section>
+
+<section class="section" id="tools">
+<div class="section-head"><div><h2>Tool directory</h2><p>Every tool below is a real working utility — not a placeholder. Filter by the same three intents the video targets.</p></div>
+<div class="filters" id="filters">
+<button class="filter active" data-filter="all">All tools</button>
+<button class="filter" data-filter="calculator">Calculators</button>
+<button class="filter" data-filter="checker">Checkers</button>
+<button class="filter" data-filter="generator">Generators</button>
+</div></div>
+<div class="grid" id="toolGrid">
+<article class="tool-card" data-type="checker" data-search="apk analyzer file hash sha check verify"><div class="tool-top"><div class="icon">🔍</div><span class="badge check">Checker</span></div><h3>APK File Analyzer</h3><p>File name, exact size, installed-size estimate and SHA-256 fingerprint — computed locally.</p><a href="#analyzer">Open tool →</a></article>
+<article class="tool-card" data-type="calculator" data-search="apk size calculator download time storage"><div class="tool-top"><div class="icon">🧮</div><span class="badge calc">Calculator</span></div><h3>APK Size Calculator</h3><p>Add code, images, video and libraries — see total size, install size and download time instantly.</p><a href="#size-calc">Open tool →</a></article>
+<article class="tool-card" data-type="checker" data-search="compatibility checker android version sdk api"><div class="tool-top"><div class="icon">✅</div><span class="badge check">Checker</span></div><h3>Compatibility Checker</h3><p>Will this APK run on your phone? Compare the app’s minimum Android version with your device.</p><a href="#compat">Open tool →</a></article>
+<article class="tool-card" data-type="checker" data-search="permission checker risk privacy dangerous"><div class="tool-top"><div class="icon">🛡️</div><span class="badge check">Checker</span></div><h3>Permission Risk Checker</h3><p>Tick the permissions an app asks for and get a plain-English risk score before you install.</p><a href="#permissions">Open tool →</a></article>
+<article class="tool-card" data-type="generator" data-search="package name generator developer com"><div class="tool-top"><div class="icon">📦</div><span class="badge gen">Generator</span></div><h3>Package Name Generator</h3><p>Create valid Android package names like com.yourbrand.app — ready to copy into your project.</p><a href="#package-gen">Open tool →</a></article>
+<article class="tool-card" data-type="generator" data-search="app name generator ideas brand"><div class="tool-top"><div class="icon">✨</div><span class="badge gen">Generator</span></div><h3>App Name Generator</h3><p>Stuck on a name? Generate short, brandable app name ideas from any keyword and category.</p><a href="#name-gen">Open tool →</a></article>
+<article class="tool-card" data-type="calculator" data-search="storage calculator download time how many apps fit"><div class="tool-top"><div class="icon">💾</div><span class="badge calc">Calculator</span></div><h3>Storage &amp; Download Calculator</h3><p>How long will a download take, and how many apps fit in your free space? Work it out in seconds.</p><a href="#storage-calc">Open tool →</a></article>
+</div>
+<p id="noResults" class="hidden" style="color:var(--muted);margin-top:14px">No tool matches that search. Try “size”, “checker” or “generator”.</p>
+</section>
+
+<section class="section"><div class="workspace">
+
+<!-- SIZE CALC -->
+<div class="panel" id="size-calc">
+<h3>🧮 APK Size Calculator</h3><p class="sub">Drag the sliders to match your project. Totals update live.</p>
+<label class="field"><span>App code (DEX / Kotlin / Java) <output id="oCode">12 MB</output></span><input type="range" id="inCode" min="0" max="80" value="12"></label>
+<label class="field"><span>Images &amp; icons <output id="oImg">18 MB</output></span><input type="range" id="inImg" min="0" max="120" value="18"></label>
+<label class="field"><span>Audio &amp; video <output id="oVid">25 MB</output></span><input type="range" id="inVid" min="0" max="300" value="25"></label>
+<label class="field"><span>Native libraries (.so) <output id="oLib">8 MB</output></span><input type="range" id="inLib" min="0" max="100" value="8"></label>
+<div class="result"><div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Total APK size</div><div class="result-big" id="sizeTotal">63 MB</div><div class="bar"><i id="sizeBar" style="width:31%"></i></div>
+<div class="kv"><span>Estimated installed size (≈ 2.1×)</span><b id="sizeInstall">132 MB</b></div>
+<div class="kv"><span>Download on 25 Mbps</span><b id="sizeDl25">20 sec</b></div>
+<div class="kv"><span>Download on 100 Mbps</span><b id="sizeDl100">5 sec</b></div>
+<div id="sizeVerdict" class="verdict ok">✓ Comfortable size — under the 200 MB comfort zone for direct APK sharing.</div></div>
+</div>
+
+<!-- COMPAT -->
+<div class="panel" id="compat">
+<h3>✅ Compatibility Checker</h3><p class="sub" id="checker">Pick the app’s minimum version and your phone’s version.</p>
+<label class="field"><span>App requires (minimum)</span></label>
+<select id="minVer" style="margin-bottom:12px"></select>
+<label class="field"><span>Your phone runs</span></label>
+<select id="devVer"></select>
+<div class="result"><div class="kv"><span>App minimum API</span><b class="mono" id="apiMin">—</b></div><div class="kv"><span>Your device API</span><b class="mono" id="apiDev">—</b></div><div class="kv"><span>App minimum version</span><b id="verMin">—</b></div><div class="kv"><span>Your device version</span><b id="verDev">—</b></div><div id="compatVerdict" class="verdict ok">—</div>
+<p style="font-size:13px;color:var(--muted);margin:10px 0 0">Tip: “Parse error” or “App not installed” on an old phone usually means the APK needs a newer Android than the device has — not that the file is corrupt.</p></div>
+</div>
+
+<!-- PERMISSIONS -->
+<div class="panel full" id="permissions">
+<h3>🛡️ Permission Risk Checker</h3><p class="sub">Select everything the APK asks for on its install / info page. We score risk the way a careful user should read it.</p>
+<div class="perm-grid" id="permGrid"></div>
+<div class="result"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><div><div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Risk score</div><div class="result-big"><span id="riskScore">0</span><span style="font-size:18px;color:var(--muted)"> / 100</span></div></div><b id="riskLabel">Low risk</b></div><div class="bar"><i id="riskBar" style="width:0%"></i></div><div id="riskText" style="font-size:14px;color:var(--muted)">No permissions selected yet.</div></div>
+<p style="font-size:13px;color:var(--muted);margin:12px 0 0"><b>How to read the result:</b> 0&ndash;29 is low risk, 30&ndash;59 is medium risk &mdash; check carefully why the app needs those permissions, and 60+ is high risk &mdash; only install if you fully trust the source and the app has a clear reason for every permission.</p>
+</div>
+
+<!-- PACKAGE GEN -->
+<div class="panel" id="package-gen">
+<h3>📦 Package Name Generator</h3><p class="sub" id="generator">Android package names use reverse-domain style and must be unique on Play.</p>
+<div class="two"><label class="field"><span>Brand / company</span><input type="text" id="pkgBrand" value="MoveWell" placeholder="e.g. MoveWell"></label>
+<label class="field"><span>App name</span><input type="text" id="pkgApp" value="Healthy" placeholder="e.g. Healthy"></label></div>
+<label class="field"><span>Top-level domain</span><select id="pkgTld"><option>com</option><option>io</option><option>app</option><option>co</option><option>org</option><option>net</option></select></label>
+<button class="btn" id="pkgBtn">Generate package names</button>
+<div class="chips" id="pkgOut"></div>
+<p style="font-size:13px;color:var(--muted)">Rules applied automatically: lowercase only, no spaces or hyphens, each segment starts with a letter.</p>
+</div>
+
+<!-- NAME GEN -->
+<div class="panel">
+<h3>✨ App Name Generator</h3><p class="sub">Short, memorable names for a new app — generate, copy, shortlist.</p>
+<label class="field"><span>Keyword</span><input type="text" id="nameKw" value="Fit" placeholder="e.g. Fit, Photo, Beat"></label>
+<label class="field"><span>Category</span><select id="nameCat"><option>Health & Fitness</option><option>Photo & Video</option><option>Music</option><option>Productivity</option><option>Games</option><option>Finance</option><option>Education</option></select></label>
+<button class="btn" id="nameBtn">Generate name ideas</button>
+<div class="chips" id="nameOut"></div>
+</div>
+
+<!-- STORAGE CALC -->
+<div class="panel full" id="storage-calc">
+<h3>💾 Storage &amp; Download Calculator</h3><p class="sub" id="calculator">Two everyday questions, one calculator.</p>
+<div class="two">
+<label class="field"><span>APK / file size (MB)</span><input type="number" id="stSize" value="85" min="1"></label>
+<label class="field"><span>Connection speed (Mbps)</span><input type="number" id="stSpeed" value="25" min="1"></label>
+<label class="field"><span>Free storage on phone (GB)</span><input type="number" id="stFree" value="12" min="0" step="0.5"></label>
+<label class="field"><span>Average app installed size (MB)</span><input type="number" id="stAvg" value="180" min="1"></label>
+</div>
+<div class="result"><div class="kv"><span>Download time</span><b id="stTime">27 sec</b></div><div class="kv"><span>Data used</span><b id="stData">85 MB</b></div><div class="kv"><span>Apps that fit in free space</span><b id="stFit">68 apps</b></div><div class="kv"><span>Space left after this install (≈2.1× APK)</span><b id="stLeft">11.83 GB</b></div></div>
+</div>
+
+</div></section>
+
+<section class="section">
+<div class="section-head"><div><h2>Why this page is built this way</h2><p>This is the micro-niche model from the video, applied to one niche — APK — instead of chasing broad, high-competition keywords.</p></div></div>
+<div class="how">
+<article><b class="num">1</b><h3>Target tool intent</h3><p>People searching “APK size calculator”, “APK checker” or “package name generator” want a tool, not an article. One clear tool per search intent is the whole strategy.</p></article>
+<article><b class="num">2</b><h3>Stay in one micro-niche</h3><p>Every tool here serves the same user — someone downloading, checking or building an APK. That focus is what makes a small site rank and get shared.</p></article>
+<article><b class="num">3</b><h3>Fast, free, no friction</h3><p>No account, no upload, no waiting. Each tool answers in seconds, directly in the browser — which is exactly what tool-keyword visitors expect.</p></article>
+</div>
+</section>
+
+<section class="section" id="faq">
+<div class="section-head"><div><h2>APK questions, answered plainly</h2></div></div>
+<details><summary>What is an APK file?</summary><p>APK stands for Android Package Kit. It’s the file format Android uses to install an app — the equivalent of an .exe installer on Windows. Every app on the Play Store is delivered as an APK (or app bundle) under the hood.</p></details>
+<details><summary>Is it safe to install APKs from outside the Play Store?</summary><p>It can be, but only from sources you trust. Check the file with the Analyzer above, review its permissions with the Risk Checker, and be wary of apps asking for SMS, accessibility or device-admin access they don’t need.</p></details>
+<details><summary>Why does an app say “not compatible with your device”?</summary><p>Usually the app’s minimum Android version is higher than your phone’s version, or it needs hardware (like a specific chip or NFC) your phone lacks. Run the Compatibility Checker to see the version side in seconds.</p></details>
+<details><summary>Are my files uploaded when I use the Analyzer?</summary><p>No. The Analyzer reads the file entirely in your browser using the File API and Web Crypto. Nothing leaves your device, and closing the tab clears everything.</p></details>
+</section>
+</main>
+<footer><div class="wrap">APK Tools — free browser-based utilities for Android users and developers. Always download APKs only from sources you trust and respect app developers’ terms. Tools run locally; no files are stored or uploaded.<br>Built as a single self-contained page &mdash; no accounts, no uploads, no tracking.</div></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+// ---- Search & filter ----
+const cards=[...document.querySelectorAll('.tool-card')];
+function applyFilter(){
+  const q=$('searchInput').value.trim().toLowerCase();
+  const f=document.querySelector('.filter.active')?.dataset.filter||'all';
+  let visible=0;
+  cards.forEach(c=>{
+    const matchType=f==='all'||c.dataset.type===f;
+    const matchQ=!q||(c.dataset.search+' '+c.textContent).toLowerCase().includes(q);
+    const show=matchType&&matchQ; c.classList.toggle('hidden',!show); if(show)visible++;
+  });
+  $('noResults').classList.toggle('hidden',visible>0);
+}
+$('searchInput').addEventListener('input',applyFilter);
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');applyFilter();}));
+
+// ---- File analyzer ----
+const fmtBytes=b=>{if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';if(b<1073741824)return (b/1048576).toFixed(2)+' MB';return (b/1073741824).toFixed(2)+' GB'};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// ---- ZIP / APK helpers (pure functions, no DOM) ----
+function hasZipMagic(b){ return b.length>=4 && b[0]===0x50 && b[1]===0x4B && b[2]===0x03 && b[3]===0x04; }
+function u16le(b,o){ return b[o]|(b[o+1]<<8); }
+function u32le(b,o){ return (b[o]|(b[o+1]<<8)|(b[o+2]<<16)|(b[o+3]<<24))>>>0; }
+function zipEntries(bytes){
+  let eocd=-1;
+  const start=Math.max(0,bytes.length-65557);
+  for(let i=bytes.length-22;i>=start;i--){ if(u32le(bytes,i)===0x06054b50){ eocd=i; break; } }
+  if(eocd<0) throw new Error('no central directory');
+  const total=u16le(bytes,eocd+10);
+  let off=u32le(bytes,eocd+16);
+  const entries=[];
+  for(let n=0;n<total;n++){
+    if(u32le(bytes,off)!==0x02014b50) throw new Error('bad central directory');
+    const method=u16le(bytes,off+10);
+    const compSize=u32le(bytes,off+20), uncompSize=u32le(bytes,off+24);
+    const nameLen=u16le(bytes,off+28), extraLen=u16le(bytes,off+30), commentLen=u16le(bytes,off+32);
+    const localOff=u32le(bytes,off+42);
+    const name=new TextDecoder().decode(bytes.subarray(off+46,off+46+nameLen));
+    entries.push({name:name,method:method,compSize:compSize,uncompSize:uncompSize,localOff:localOff});
+    off+=46+nameLen+extraLen+commentLen;
+  }
+  return entries;
+}
+async function unzipEntry(bytes,entry){
+  const o=entry.localOff;
+  if(u32le(bytes,o)!==0x04034b50) throw new Error('bad local header');
+  const nameLen=u16le(bytes,o+26), extraLen=u16le(bytes,o+28);
+  const start=o+30+nameLen+extraLen;
+  const data=bytes.subarray(start,start+entry.compSize);
+  if(entry.method===0) return data.slice();
+  if(entry.method===8){
+    const ds=new DecompressionStream('deflate-raw');
+    const stream=new Blob([data]).stream().pipeThrough(ds);
+    const buf=await new Response(stream).arrayBuffer();
+    return new Uint8Array(buf);
+  }
+  throw new Error('unsupported compression method '+entry.method);
+}
+// ---- Binary AndroidManifest.xml (AXML) parser ----
+function parseAxml(input){
+  const b=input instanceof Uint8Array?input:new Uint8Array(input);
+  const dv=new DataView(b.buffer,b.byteOffset,b.byteLength);
+  const u16=function(o){ return dv.getUint16(o,true); };
+  const u32=function(o){ return dv.getUint32(o,true); };
+  if(b.length<8||u32(0)!==0x00080003) throw new Error('not binary AXML');
+  let strings=[];
+  const info={package:null,versionCode:null,versionName:null,minSdk:null,targetSdk:null,permissions:[]};
+  let off=8;
+  while(off+8<=b.length){
+    const type=u16(off), headerSize=u16(off+2), size=u32(off+4);
+    if(size<8||off+size>b.length) break;
+    if(type===0x0001){
+      const count=u32(off+8), flags=u32(off+16), stringsStart=u32(off+20);
+      const utf8=(flags&0x100)!==0;
+      strings=[];
+      for(let i=0;i<count;i++){
+        const so=off+stringsStart+u32(off+28+i*4);
+        if(utf8){
+          let q=so;
+          let c=b[q++];
+          if(c&0x80){ q++; }
+          c=b[q++];
+          let len8=c&0x80?(((c&0x7f)<<8)|b[q++]):c;
+          strings.push(new TextDecoder('utf-8').decode(b.subarray(q,q+len8)));
+        }else{
+          let len=u16(so);
+          let p=so+2;
+          if(len&0x8000){ len=((len&0x7fff)<<16)|u16(so+2); p=so+4; }
+          strings.push(new TextDecoder('utf-16le').decode(b.subarray(p,p+len*2)));
+        }
+      }
+    }else if(type===0x0102){
+      const nameIdx=u32(off+20);
+      const attrStart=u16(off+24), attrCount=u16(off+28);
+      const elName=strings[nameIdx]||'';
+      const attrBase=off+headerSize+attrStart;
+      const attrs=[];
+      for(let i=0;i<attrCount;i++){
+        const a=attrBase+i*20;
+        if(a+20>off+size) break;
+        const aName=strings[u32(a+4)]||'';
+        const raw=u32(a+8);
+        const dataType=b[a+15];
+        const data=u32(a+16);
+        let value=null;
+        if(dataType===0x03) value=strings[data];
+        else if(dataType===0x10||dataType===0x11) value=data;
+        else if(raw!==0xffffffff) value=strings[raw];
+        attrs.push({name:aName,value:value});
+      }
+      const get=function(n){ const f=attrs.find(function(x){ return x.name===n; }); return f?f.value:null; };
+      const asInt=function(v){ if(typeof v==='number') return v; if(typeof v==='string'){ const n=parseInt(v,10); return isNaN(n)?null:n; } return null; };
+      if(elName==='manifest'){
+        info.package=get('package');
+        info.versionCode=asInt(get('versionCode'));
+        info.versionName=get('versionName');
+      }else if(elName==='uses-sdk'){
+        info.minSdk=asInt(get('minSdkVersion'));
+        info.targetSdk=asInt(get('targetSdkVersion'));
+      }else if(elName==='uses-permission'||elName==='uses-permission-sdk-23'||elName==='uses-permission-sdk-m'){
+        const p=get('name');
+        if(typeof p==='string'&&p) info.permissions.push(p);
+      }
+    }
+    off+=size;
+  }
+  if(!info.package) throw new Error('no manifest element found');
+  return info;
+}
+
+async function handleFile(file){
+  if(!file)return;
+  const box=$('fileResult'); box.style.display='block';
+  if(!/\.apk$/i.test(file.name)){
+    box.innerHTML='<dl><dt>File</dt><dd>'+esc(file.name)+'</dd></dl><div class="verdict bad">\u2715 Not a valid APK \u2014 this file does not end in .apk. Please choose an Android APK file.</div>';
+    return;
+  }
+  let buf;
+  try{ buf=await file.arrayBuffer(); }catch(e){ box.innerHTML='<p>Could not read this file in your browser.</p>'; return; }
+  const bytes=new Uint8Array(buf);
+  if(!hasZipMagic(bytes)){
+    box.innerHTML='<dl><dt>File</dt><dd>'+esc(file.name)+'</dd><dt>Size</dt><dd>'+fmtBytes(file.size)+' ('+file.size.toLocaleString()+' bytes)</dd></dl><div class="verdict bad">\u2715 Not a valid APK \u2014 this file is not a ZIP archive. An APK is a ZIP file and must start with the bytes \u201cPK\u201d.</div>';
+    return;
+  }
+  box.innerHTML='<dl><dt>File</dt><dd>'+esc(file.name)+'</dd><dt>Size</dt><dd>'+fmtBytes(file.size)+' ('+file.size.toLocaleString()+' bytes)</dd><dt>Install est.</dt><dd>\u2248 '+fmtBytes(file.size*2.1)+'</dd><dt>SHA-256</dt><dd class="mono">Computing\u2026</dd></dl>';
+  try{
+    const hash=await crypto.subtle.digest('SHA-256',buf);
+    const hex=[...new Uint8Array(hash)].map(function(x){ return x.toString(16).padStart(2,'0'); }).join('');
+    box.querySelectorAll('dd')[3].textContent=hex;
+  }catch(e){ box.querySelectorAll('dd')[3].textContent='Could not compute in this browser'; }
+  let entries=[];
+  try{ entries=zipEntries(bytes); }catch(e){ entries=[]; }
+  const sorted=entries.slice().sort(function(a,b){ return b.uncompSize-a.uncompSize; });
+  const top=sorted.slice(0,10);
+  let html='<div style="margin-top:12px"><div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#B9D8C1">Contents \u2014 '+entries.length+' file'+(entries.length===1?'':'s')+'</div>';
+  if(top.length){
+    html+='<dl style="margin-top:8px">'+top.map(function(en){ return '<dt>'+esc(en.name)+'</dt><dd>'+fmtBytes(en.uncompSize)+'</dd>'; }).join('')+'</dl>';
+  }else{
+    html+='<p style="margin:8px 0 0;font-size:14px">The file list could not be read from this archive.</p>';
+  }
+  html+='</div>';
+  const man=entries.find(function(en){ return en.name==='AndroidManifest.xml'; });
+  let verdictOk=false, manifestHtml='';
+  if(man){
+    verdictOk=true;
+    try{
+      const raw=await unzipEntry(bytes,man);
+      const info=parseAxml(raw);
+      const perms=info.permissions.length?info.permissions.map(function(p){ return esc(p); }).join('<br>'):'None declared';
+      manifestHtml='<div style="margin-top:12px"><div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#B9D8C1">Manifest</div><dl style="margin-top:8px">'
+        +'<dt>Package</dt><dd class="mono">'+esc(info.package||'\u2014')+'</dd>'
+        +'<dt>Version</dt><dd>'+esc(info.versionName||'\u2014')+' (code '+esc(info.versionCode===null?'\u2014':String(info.versionCode))+')</dd>'
+        +'<dt>Min SDK</dt><dd>'+esc(info.minSdk===null?'\u2014':'API '+info.minSdk)+'</dd>'
+        +'<dt>Target SDK</dt><dd>'+esc(info.targetSdk===null?'\u2014':'API '+info.targetSdk)+'</dd>'
+        +'<dt>Permissions</dt><dd>'+perms+'</dd>'
+        +'</dl></div>';
+    }catch(e){
+      manifestHtml='<p style="margin:12px 0 0;font-size:14px">AndroidManifest.xml is present but could not be read in this browser, so no package or version details are shown rather than guessed.</p>';
+    }
+  }else{
+    manifestHtml='<p style="margin:12px 0 0;font-size:14px">No AndroidManifest.xml was found inside this file, so package and version details are not available.</p>';
+  }
+  const verdict='<div class="verdict '+(verdictOk?'ok':'bad')+'">'+(verdictOk?'\u2713 Looks like a real APK \u2014 ZIP format and AndroidManifest.xml both found.':'\u2715 Not a valid APK \u2014 AndroidManifest.xml was not found inside this file.')+'</div>';
+  box.innerHTML+=html+manifestHtml+verdict;
+}
+$('fileInput').addEventListener('change',e=>handleFile(e.target.files[0]));
+const dz=$('dropzone');
+['dragover','dragenter'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.style.background='rgba(255,255,255,.14)'}));
+['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.style.background='rgba(255,255,255,.06)'}));
+dz.addEventListener('drop',e=>handleFile(e.dataTransfer.files[0]));
+
+// ---- Size calculator ----
+function fmtTime(sec){ if(sec<60)return Math.round(sec)+' sec'; if(sec<3600)return (sec/60).toFixed(1)+' min'; return (sec/3600).toFixed(1)+' hrs'; }
+function sizeCalc(){
+  const vals=[['inCode','oCode'],['inImg','oImg'],['inVid','oVid'],['inLib','oLib']];
+  let total=0; vals.forEach(([i,o])=>{const v=+$(i).value; total+=v; $(o).textContent=v+' MB';});
+  $('sizeTotal').textContent=total+' MB';
+  $('sizeBar').style.width=Math.min(100,total/200*100)+'%';
+  $('sizeInstall').textContent=Math.round(total*2.1)+' MB';
+  $('sizeDl25').textContent=fmtTime(total*8/25);
+  $('sizeDl100').textContent=fmtTime(total*8/100);
+  const v=$('sizeVerdict');
+  if(total<=100){v.className='verdict ok';v.textContent='✓ Comfortable size — quick to download and easy to share directly.';}
+  else if(total<=200){v.className='verdict warn';v.textContent='⚠ Getting large — consider compressing video/images or using an app bundle with split delivery.';}
+  else{v.className='verdict bad';v.textContent='✕ Over 200 MB — many users will skip a direct APK this large. Reduce media or split the download.';}
+}
+['inCode','inImg','inVid','inLib'].forEach(id=>$(id).addEventListener('input',sizeCalc)); sizeCalc();
+
+// ---- Compatibility ----
+const versions=[
+ {name:'Android 16',api:36},{name:'Android 15',api:35},{name:'Android 14',api:34},{name:'Android 13',api:33},{name:'Android 12',api:31},{name:'Android 11',api:30},{name:'Android 10',api:29},{name:'Android 9 Pie',api:28},{name:'Android 8 Oreo',api:26},{name:'Android 7 Nougat',api:24},{name:'Android 6 Marshmallow',api:23},{name:'Android 5 Lollipop',api:21}
+];
+versions.forEach((v,i)=>{ $('minVer').innerHTML+='<option value="'+v.api+'">'+v.name+' (API '+v.api+')</option>'; $('devVer').innerHTML+='<option value="'+v.api+'">'+v.name+' (API '+v.api+')</option>'; });
+$('minVer').value='26'; $('devVer').value='33';
+function compat(){
+  const min=+ $('minVer').value, dev=+ $('devVer').value;
+  $('apiMin').textContent='API '+min; $('apiDev').textContent='API '+dev;
+  const minName=(versions.find(v=>v.api===min)||{}).name||'—';
+  const devName=(versions.find(v=>v.api===dev)||{}).name||'—';
+  $('verMin').textContent=minName; $('verDev').textContent=devName;
+  const v=$('compatVerdict');
+  if(dev>=min){v.className='verdict ok';v.textContent='✓ Compatible — your Android version meets this app’s minimum requirement.';}
+  else{v.className='verdict bad';v.textContent='✕ Not compatible — this app needs a newer Android. Look for an older version of the app built for API '+dev+' or lower.';}
+}
+$('minVer').addEventListener('change',compat); $('devVer').addEventListener('change',compat); compat();
+
+// ---- Permissions ----
+const perms=[
+ {n:'Internet',d:'Normal for most apps — ads, sync, browsing',w:5},
+ {n:'Storage / Files',d:'Read & write files on your device',w:18},
+ {n:'Camera',d:'Take photos and video',w:15},
+ {n:'Microphone',d:'Record audio',w:18},
+ {n:'Precise Location',d:'Track your exact position',w:22},
+ {n:'Contacts',d:'Read your address book',w:20},
+ {n:'SMS — Read / Send',d:'High risk: can read codes & send texts',w:35},
+ {n:'Phone & Call Log',d:'Read call history, make calls',w:25},
+ {n:'Accessibility Service',d:'Very high risk: can see & control screen',w:40},
+ {n:'Install Unknown Apps',d:'Can install other apps silently',w:35},
+ {n:'Device Admin',d:'Hard to uninstall, deep control',w:40},
+ {n:'Notifications',d:'Show notifications',w:2},
+];
+$('permGrid').innerHTML=perms.map((p,i)=>'<label class="perm"><input type="checkbox" data-w="'+p.w+'" data-n="'+p.n+'"><span><b>'+p.n+'</b><small>'+p.d+'</small></span></label>').join('');
+function risk(){
+  let score=0, names=[];
+  document.querySelectorAll('#permGrid input:checked').forEach(c=>{score+=+c.dataset.w; names.push(c.dataset.n);});
+  score=Math.min(100,score);
+  $('riskScore').textContent=score; $('riskBar').style.width=score+'%';
+  $('riskBar').style.background=score>=60?'var(--red)':score>=30?'#D97706':'var(--green)';
+  const lbl=$('riskLabel');
+  if(score===0){lbl.textContent='Low risk'; $('riskText').textContent='No permissions selected yet.';}
+  else if(score<30){lbl.textContent='Low risk'; $('riskText').textContent='Selected: '+names.join(', ')+'. This looks proportionate for most apps — still check the app actually needs them.';}
+  else if(score<60){lbl.textContent='Medium risk — check carefully'; $('riskText').textContent='Selected: '+names.join(', ')+'. Ask why the app needs these. A simple game or torch app should not need location, contacts or microphone.';}
+  else{lbl.textContent='High risk — think twice'; $('riskText').textContent='Selected: '+names.join(', ')+'. This combination gives an app deep access. Only install if you fully trust the source and the app has a clear reason for every permission.';}
+}
+document.querySelectorAll('#permGrid input').forEach(c=>c.addEventListener('change',risk));
+
+// ---- Copy helper ----
+function copyText(t,btn){ const old=btn.textContent; const done=()=>{btn.textContent='Copied ✓'; setTimeout(()=>btn.textContent=old,1400);}; if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(done);}else{done();} }
+function chip(text,parent){ const s=document.createElement('span'); s.className='chip'; s.innerHTML='<span class="mono"></span>'; s.querySelector('span').textContent=text; const b=document.createElement('button'); b.textContent='Copy'; b.setAttribute('aria-label','Copy '+text); b.addEventListener('click',()=>copyText(text,b)); s.appendChild(b); parent.appendChild(s); }
+
+// ---- Package generator ----
+const clean=s=>(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,'').trim().replace(/\s+/g,' ').split(' ').map(w=>w.replace(/^[0-9]+/,'')).join('');
+function pkgGen(){
+  const brand=clean($('pkgBrand').value)||'mybrand'; const app=clean($('pkgApp').value)||'app'; const tld=$('pkgTld').value;
+  const list=[tld+'.'+brand+'.'+app, tld+'.'+brand+'.'+app+'app', tld+'.'+brand+'apps.'+app, tld+'.'+brand+'.'+app+'mobile', 'app.'+brand+'.'+app];
+  const out=$('pkgOut'); out.innerHTML=''; [...new Set(list)].forEach(x=>chip(x,out));
+}
+$('pkgBtn').addEventListener('click',pkgGen); pkgGen();
+
+// ---- Name generator ----
+function nameGen(){
+  const kw=($('nameKw').value||'Nova').trim().replace(/\s+/g,''); const cap=kw.charAt(0).toUpperCase()+kw.slice(1);
+  const pre=['','Go','Get','My','Hey','Snap','Turbo','Pure','Daily','Smart']; const suf=['ly','Hub','Lab','Nest','Flow','Pulse','Mate','Zone','Go','ify','Box','Loop'];
+  const out=$('nameOut'); out.innerHTML='';
+  const combos=[]; pre.forEach(p=>suf.forEach(s=>combos.push(p+cap+s)));
+  combos.sort(()=>Math.random()-.5); combos.slice(0,12).forEach(x=>chip(x,out));
+}
+$('nameBtn').addEventListener('click',nameGen); nameGen();
+
+// ---- Storage calc ----
+function storage(){
+  const size=+ $('stSize').value||0, speed=+ $('stSpeed').value||1, free=+ $('stFree').value||0, avg=+ $('stAvg').value||1;
+  $('stTime').textContent=fmtTime(size*8/Math.max(1,speed));
+  $('stData').textContent=size+' MB';
+  $('stFit').textContent=Math.floor(free*1024/avg)+' apps';
+  $('stLeft').textContent=Math.max(0,free-(size*2.1/1024)).toFixed(2)+' GB';
+}
+['stSize','stSpeed','stFree','stAvg'].forEach(id=>$(id).addEventListener('input',storage)); storage();
+</script>
+</body>
+</html>
